@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Transform))]
@@ -26,7 +24,8 @@ public class WaypointFollower : MonoBehaviour
             _moveSpeed * Time.deltaTime
         );
 
-        if (Vector3.Distance(transform.position, currentWaypoint.position) < 0.01f)
+        Vector3 toWaypoint = currentWaypoint.position - transform.position;
+        if (toWaypoint.sqrMagnitude < 0.0001f)
         {
             SetNextWaypoint();
         }

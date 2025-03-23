@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -10,15 +9,17 @@ public class BulletShooter : MonoBehaviour
     [SerializeField] private float _bulletSpeed = 10f;
     [SerializeField] private float _fireRate = 1f;
 
+    private WaitForSeconds _fireDelay;
+
     private void Start()
     {
         if (_bulletPrefab == null)
         {
-            Debug.LogError("Bullet prefab not assigned!", this);
             enabled = false;
             return;
         }
 
+        _fireDelay = new WaitForSeconds(_fireRate);
         StartCoroutine(FireRoutine());
     }
 
@@ -27,7 +28,7 @@ public class BulletShooter : MonoBehaviour
         while (enabled)
         {
             FireBullet();
-            yield return new WaitForSeconds(_fireRate);
+            yield return _fireDelay;
         }
     }
 
